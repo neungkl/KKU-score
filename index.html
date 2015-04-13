@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>โปรแกรมคำนวณคะแนนมหาวิทยาลัยขอนแก่น แบบรับตรง</title>
+
+		<meta name="keywords" content="kozartae, kosate studio, kosate, มข, คำนวณคะแนน, โปรแกรม, คิดคะแนน, คะแนน, มหาวิทยาลัยขอนแก่น" />
+		<meta name="description" content="โปรแกรมคำนวณคะแนนมหาวิทยาลัยขอนแก่น" />
+		<meta property="og:description" content="โปรแกรมคำนวณคะแนนมหาวิทยาลัยขอนแก่น" />
+		<meta property="og:image" content="http://kosatestudio.com/project/kku_score/thumnail.jpg" />
+		<meta property="og:title" content="โปรแกรมคำนวณคะแนนมหาวิทยาลัยขอนแก่น" />
+		<meta property="og:type" content="website" />
+		<meta property="fb:admins" content="100000418457798" />
+		<link rel="shortcut icon" href="../../images/favicon.ico">
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-39468607-1']);
+		  _gaq.push(['_setDomainName', 'kosatestudio.com']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+
+		<script src="../script/libs/jquery-1.9.1.min.js"></script>
+		<script src="../script/libs/json2.js"></script>
+		<script src="libs/jquery.nouislider-5.0.min.js"></script>
+		<link rel="stylesheet" href="libs/jquery.nouislider-5.0.min.css" />
+		<link rel="stylesheet" href="libs/css-reset.css" />
+		<link rel="stylesheet" href="libs/css-reset-mobile.css" />
+		<style type="text/css">
+
+			#share {
+				z-index:100;
+				position:fixed;
+				background:#0b4e78; width:100%; text-shadow:none;
+				margin:0px; padding:0px;
+				font-family:helvetica,tahoma,arial,sans-serif;
+				color:#FFF;
+				font-size:13px;
+				height:33px;
+				bottom:0px;
+			}
+			#share a { color:inherit; text-decoration:none; }
+
+			.fright { float:right; }
+			.fleft { float:left; }
+			.clear { clear:both; }
+			.greycolor { font-size:12px; color:#999; }
+			body {
+				background:url('bg.jpg') #ff9c00;
+				font-family: Arial,Tahoma,sans-serif;
+				min-width:960px;
+				padding:0px;
+				color:#FFF;
+			}
+			#content {
+				width:960px;
+				margin:auto;
+				margin-top:40px;
+				margin-bottom:60px;
+			}
+			#content .head .title {
+				color:#FFF;
+				background-color:#400;
+				padding:10px 15px;
+				font-size:16px;
+				width:400px;
+				text-align:center;
+			}
+			#enter_score .score {
+				color:#400;
+			}
+			#enter_score .error { text-align:center; padding:50px 0px 45px; color:#F00; background-color:#ffd48a; }
+			#enter_score .kku_score { padding-top:17px; background-color:#ffe3ac; }
+			#enter_score .pat_score { background-color:#ffd48a; }
+			#enter_score .gpax_score { background-color:#ffe3ac; }
+			#enter_score .faculty { background-color:#ffd48a; }
+			#enter_score .submit { background-color:#ffd48a; }
+			#enter_score .score .title {
+				background-color:#ff7e00;
+				width:270px; padding:7px 12px; color:#400;
+				font-size:16px; text-align:center;
+
+			}
+			#enter_score .score .headname { font-size:13px; }
+			#enter_score .score .subname {
+				font-size:11px; color:#999;
+			}
+			#enter_score .score .title .num{ color:#FFF; font-size:22px; font-weight:bold; vertical-align:middle; }
+			#enter_score .score .input input {
+				border:1px solid #DDD;
+				width:72px; margin:0px 5px;
+				padding:3px; color:#400;
+				font-size:14px;
+				text-align:center;
+			}
+			#enter_score .score table { text-align:center; }
+			#enter_score .faculty .input {
+				border:1px solid #DDD;
+				padding:10px 0px;
+				text-align:center;
+				font-size:15px;
+				margin:0px;
+				width:600px;
+			}
+			#enter_score .faculty .find {
+				border:none;
+				background-color:#400;
+				color:#FFF;
+				font-size:15px;
+				padding:10px 15px;
+				margin:0px;
+				cursor:pointer;
+			}
+			#enter_score .faculty .list {
+				max-height:270px;
+				overflow:auto;
+				width:602px;
+				background-color:#400;
+				font-size:14px;
+				padding:0px;
+				color:#FFF;
+			}
+			#enter_score .faculty .list div { padding:1px 7px; cursor:pointer; }
+			#enter_score .faculty .list div:hover {
+				background-color:#ff7e00;
+				color:#400;
+				font-weight:bold;
+			}
+			#enter_score .faculty .select_name {
+				background-color:#400;
+				color:#FFF;
+				font-size:15px;
+				padding:7px 12px;
+				float:left;
+			}
+			#enter_score .faculty .select_remove {
+				background-color:#F00;
+				padding:7px 12px;
+				font-size:15px;
+				color:#FFF;
+				float:left;
+				cursor:pointer;
+			}
+			#enter_score .submit { padding-top:6px; }
+			#enter_score .submit input {
+				cursor:pointer;
+				border:none;
+				background-color:#ff5a00;
+				color:#FFF;
+				margin:0px;
+				font-size:16px;
+				padding:10px;
+				width:100%;
+			}
+
+			#score_result {
+				color:#400;
+				background-color:#ffe3ac;
+			}
+			#score_result .reverse { background-color:#ff5a00; padding:7px; text-align:center; cursor:pointer; color:#FFF; }
+			#score_result .summerize {
+				padding-top:15px;
+				padding-left:10px;
+			}
+			#score_faculty_name { background-color:#400; color:#FFF; }
+			#score_faculty_name .display .name {
+				color:#FFF;
+				padding:15px 50px;
+				display:inline-block;
+			}
+			#score_faculty_name .change { background-color:#1f0000; padding:19px 10px; display:inline-block; cursor:pointer; }
+			#score_faculty_name .choose { background-color:#1f0000; }
+			#score_faculty_name .choose input { margin:0px; padding:19px 50px; border:none; width:688px; color:#400; text-align:center; }
+			#score_faculty_name .choose ul { margin:0px; padding:0px; background-color:#400; list-style:none; max-height:200px; overflow:auto; }
+			#score_faculty_name .choose ul li { padding:1px 20px; background-color:#400; color:#FFF; cursor:pointer; }
+			#score_faculty_name .choose ul li:hover { background-color:#ff5a00; color:#400; font-weight:bold; padding:5px 20px; }
+			#score_standard {
+				padding:15px 50px;
+				background-color:#004903;
+				color:#FFF;
+			}
+			#score_standard ul {
+				padding-left:40px; margin:0px;
+				list-style:none;
+			}
+			#score_standard ul li { padding:3px 7px; }
+			#score_standard ul li.unaccept {
+				background-color:#400;
+			}
+			#score_advance {
+				padding:15px 50px;
+				background-color:#0697b6;
+				color:#FFF;
+			}
+			#score_advance .summary {
+				font-size:100px;
+			}
+			#score_advance .greycolor { color:#a7efff; }
+			#score_minmax {
+				background-color:#460d57;
+				padding:15px 50px;
+				color:#FFF;
+			}
+			#score_minmax .maxnum,#score_minmax .minnum {
+				margin-top:7px; font-size:90px;
+			}
+			#score_minmax .faculty_name { color:#ffcaf7; }
+			#score_expect { background-color:#ffedbc; color:#400; padding:15px 50px; }
+			#score_expect p { margin-bottom:15px; }
+
+			#score_analysis {
+				padding:15px 50px;
+				background-color:#ffd9ad;
+				color:#400;
+			}
+			#score_analysis .slider_1 { background-color:#ff9c00; border:none; box-shadow:none; margin-top:7px; }
+			#score_analysis .slider_1 .noUi-handle { background-color:#ffae00; border:1px solid #ff6c00; box-shadow:none; cursor:pointer; }
+			#score_analysis .slider_1 .noUi-handle:after,#score_analysis .slider_1 .noUi-handle:before { background-color:#ff6c00; }
+			#score_analysis .submit {
+				width:100%; text-align:center; background-color:#400; color:#FFF; font-size:17px; padding:5px; cursor:pointer; margin-top:12px;
+			}
+			#score_analysis .submit:hover {
+				background-color:#500;
+			}
+			#score_analysis .title { background-color:#0e5e80; color:#FFF; padding:3px 10px; display:inline-block;}
+		</style>
+		<script>
+
+			var _test;
+			var G;
+			var Con;
+			var score = {};
+			var sj_id = "";
+			var _ref = {};
+			var _subject = [];
+			_ref["continue"] = true;
+			$(function(){
+
+				document.getElementById("share-twt").setAttribute("src",
+				"https://platform.twitter.com/widgets/tweet_button.html?count=none&url="+encodeURIComponent(document.URL)+"&text="+encodeURIComponent("โปรแกรมคำนวณคะแนนมหาวิทยาลัยขอนแก่น")+"&dnt=true");
+
+				if( typeof(_test) != "undefined" ) $.fx.off = true;
+
+				var tmp = [];
+				tmp[0] = "1:2:3:4:5:6:7:8:9:85:71:72:73:74:75:76:77:78:79:80:81:82".split(":");
+				tmp[1] = "001:002:003:004:005:006:007:008:009:GAT:PAT 1:PAT 2:PAT 3:PAT 4:PAT 5:PAT 6:PAT 7.1:PAT 7.2:PAT 7.3:PAT 7.4:PAT 7.5:PAT 7.6".split(":");
+				tmp[2] = "ภาษาไทย:สังคมศึกษา:ภาษาอังกฤษ:คณิตศาสตร์ (วิทย์):วิทย์ศาสตร์ทั่วไป:เคมี:ชีววิทยา:ฟิสิกส์:คณิตศาสตร์ (ศิลป์):ความถนัดทั่วไป:คณิตศาสตร์:วิทยาศาสตร์:วิศวกรรมศาสตร์:สถาปัตยกรรมศาสตร์:วิชาชีพครู:ศิลปกรรมศาสตร์:ภาษาฝรั่งเศส:ภาษาเยอรมัน:ภาษาญี่ปุ่น:ภาษาจีน:ภาษาอาหรับ:ภาษาบาลี".split(":");
+				for( var i=0; i<tmp[0].length; i++ ) _subject[i] = [parseInt(tmp[0][i]),tmp[1][i],tmp[2][i]];
+
+				if( sessionStorage["score"] ) {
+					score = JSON.parse(sessionStorage["score"]);
+					for( var i=1; i<=9; i++ ) {
+						$("#input_kku_0"+i).val(score["kku"][i]);
+					}
+					$("#input_pat_85").val(score["pat"][85]);
+					for( var i=71; i<=82; i++ ) {
+						$("#input_pat_"+i).val(score["pat"][i]);
+					}
+					$("#input_gpax").val(score["gpax"]);
+				} else {
+					score["kku"] = {};
+					score["pat"] = {};
+				}
+				$.ajax({
+					async:false,
+					url:"data_min.json",
+					dataType:"json",
+					success:function(res) {
+						$(".error").hide();
+						G = res;
+					},
+					error:function() {
+						_ref["continue"] = false;
+						$(".score").hide();
+						$("#content .submit input").val("กรุณารีเฟรชเพจนี้ใหม่ ไม่สามารถโหลดข้อมูลได้").css("background-color","#F00").unbind("");
+					}
+				});
+				$.ajax({
+					async:false,
+					url:"data_config.json",
+					dataType:"json",
+					success:function(res) {
+						$(".error").hide();
+						Con = res;
+					},
+					error:function() {
+						_ref["continue"] = false;
+						$(".score").hide();
+						$("#content .submit input").val("กรุณารีเฟรชเพจนี้ใหม่ ไม่สามารถโหลดข้อมูลได้").css("background-color","#F00").unbind("");
+					}
+				});
+
+				if( typeof(_test) != "undefined" ) {
+					choose_faculty(_test);
+					prepare_calc();
+				}
+			});
+
+			function num_to_string(k) {
+				return k < 10 ? "00"+k : ( k < 100 ? "0"+k : k.toString() );
+			}
+			function find_faculty() {
+				$("#enter_score .faculty .choose").show();
+				$("#enter_score .faculty .select").hide();
+				$("#enter_score .faculty .select_name").text("none");
+				var q = $("#enter_score .faculty .choose .input").val();
+				var qq = [];
+				var txt = "";
+				for( var id in G ) {
+					if( G[id]["name"].indexOf(q) != -1 || id.indexOf(q) != -1 )
+						qq.push(id);
+				}
+				qq.sort();
+				for( var i=0; i<qq.length; i++ ) {
+					var id = qq[i];
+					txt += "<div onclick='choose_faculty(\""+id+"\")'>"+id+" : "+G[id]["name"]+"</div>";
+				}
+				$("#enter_score .faculty .choose .list").html(txt);
+			}
+
+			function choose_faculty(id) {
+				$("#enter_score .faculty .choose .list").html("");
+				$("#enter_score .faculty .choose").hide();
+				$("#enter_score .faculty .select").show();
+				$("#enter_score .faculty .select_name").text( id+" : "+G[id]["name"] );
+				$("#enter_score .faculty .select_name").attr("alt",id);
+			}
+
+			function prepare_calc() {
+
+				$button = $("#enter_score .submit input");
+				if( $("#enter_score .faculty .select_name").text() == "none" ) {
+					$button.val("กรุณาเลือกคณะที่ต้องการจะคำนวณคะแนน");
+					setTimeout(function() {$button.val("เริ่มคำนวณคะแนนเล้ย");},5000);
+				} else {
+
+					score["kku"] = {};
+					score["pat"] = {};
+					_ref["score_gpax"] = _ref["score_kku"] = _ref["score_pat"] = true;
+
+					for( var i=1; i<=9; i++ ) {
+						score["kku"][i] = $.trim($("#input_kku_0"+i).val());
+					}
+					score["pat"][85] = $.trim($("#input_pat_85").val());
+					for( var i=71; i<=82; i++ ) {
+						score["pat"][i] = $.trim($("#input_pat_"+i).val());
+					}
+					score["gpax"] = $.trim($("#input_gpax").val());
+					sessionStorage["score"] = JSON.stringify(score);
+
+					//check
+
+					$("#score_result .summerize > div:not(.err_empty_inp)").show();
+					$("#score_result .summerize .err").text("");
+					$("#score_result_kku tr").html("");
+					$("#score_result_pat tr").html("");
+
+					var err = [0,0,0];
+					if( score["gpax"] == "" ) score["gpax"] = -1;
+					if( isNaN(parseFloat(score["gpax"])) ) { err[0] = 1; score["gpax"] = -1; }
+					score["gpax"] = parseFloat( score["gpax"] );
+
+					for( var i=1; i<=9; i++ ) {
+						if( score["kku"][i] == "" ) score["kku"][i] = -1;
+						if( isNaN(parseInt(score["kku"][i])) ) { err[0] = 1; score["kku"][i] = -1; }
+						score["kku"][i] = parseInt( score["kku"][i] );
+						if( score["kku"][i] < 0 ) { err[1] = 1; score["kku"][i] = -1; }
+						if( score["kku"][i] > 100 ) { err[1] = 1; score["kku"][i] = 100; }
+					}
+					for( var i=71; i<=85; i++ ) {
+						if( i == 83 || i == 84 ) continue;
+						if( score["pat"][i] == "" ) score["pat"][i] = -1;
+						if( isNaN(parseInt(score["pat"][i])) ) { err[0] = 1; score["pat"][i] = -1; }
+						score["pat"][i] = parseInt( score["pat"][i] );
+						if( score["pat"][i] < 0 ) { err[1] = 1; score["pat"][i] = -1; }
+						if( score["pat"][i] > 300 ) { err[1] = 1; score["pat"][i] = 300; }
+					}
+					var is_first = false;
+					for( var i=77; i<=82; i++ ) {
+						if( is_first && (score["pat"][i] != -1) ) {
+							err[2] = 1;
+							score["pat"][i] = -1;
+						}
+						if( score["pat"][i] ) {
+							is_first = true;
+						}
+					}
+
+					var err_txt = ["ถ้าคุณกรอกข้อมูลที่ไม่ใช่ตัวเลขลงในช่องใด ช่องนั้นเราจะไม่นำมาคำนวณอัตโนมัติ",
+					"กรณีที่คุณป้อนเลขติดลบเราจะไม่นำมาคิดใดๆทั้งสิ้น หรือคะแนนที่ป้อนเกินคะแนนเต็ม เราจะปรับให้ทันที",
+					"PAT 7 จะใส่ข้อมูลได้แค่วิชาเดียวเท่านั้น หากกรอกหลายวิชาจะเลือกให้โดยอัตโนมัติ"];
+
+					$("#score_result .summerize .err").text("");
+					for( var i=0; i<3; i++ ) {
+						if( err[i] == 1 ) {
+							$("#score_result .summerize .err").append("หมายเหตุ : "+err_txt[i]+"<br>");
+						}
+					}
+
+					var tmp = [];
+					for( var i=1; i<=9; i++ ) {
+						if( score["kku"][i] != -1 ) tmp.push( i );
+					}
+					if( tmp.length == 0 ) { $("#score_result .summerize > div:eq(0)").hide(); _ref["score_kku"] = false; }
+					err_txt = [0,"ภาษาไทย","สังคมศึกษา","ภาษาอังกฤษ","คณิตศาสตร์ (วิทย์)","วิทย์ศาสตร์ทั่วไป","เคมี","ชีววิทยา","ฟิสิกส์","คณิตศาสตร์ (ศิลป์)"];
+					for( var i=0; i<tmp.length; i++ ) {
+						var j = parseInt(Math.floor(i/5));
+						$("#score_result_kku tr:eq("+j*2+")").append("<td width='70'>0"+tmp[i]+"<br>"+err_txt[tmp[i]]+"</td>");
+						$("#score_result_kku tr:eq("+(j*2+1)+")").append( "<td width='70'>"+score["kku"][tmp[i]]+"</td>" );
+					}
+					tmp = [];
+					for( var i=71; i<=82; i++ ) {
+						if( score["pat"][i] != -1 ) tmp.push( i );
+					}
+					if( score["pat"][85] != -1 ) tmp.unshift(85);
+					if( tmp.length == 0 ) { $("#score_result .summerize > div:eq(1)").hide(); _ref["score_pat"] = false; }
+					err_txt = {
+						85 : "GAT<br>ความถนัดทั่วไป",
+						71 : "PAT 1<br>คณิตศาสตร์",
+						72 : "PAT 2<br>วิทยาศาสตร์",
+						73 : "PAT 3<br>วิศวกรรมศาสตร์",
+						74 : "PAT 4<br>สถาปัตยกรรมศาสตร์",
+						75 : "PAT 5<br>วิชาชีพครู",
+						76 : "PAT 6<br>ศิลปกรรมศาสตร์",
+						77 : "PAT 7.1<br>ภาษาฝรั่งเศส",
+						78 : "PAT 7.2<br>ภาษาเยอรมัน",
+						79 : "PAT 7.3<br>ภาษาญี่ปุ่น",
+						80 : "PAT 7.4<br>ภาษาจีน",
+						81 : "PAT 7.5<br>ภาษาอาหรับ",
+						82 : "PAT 7.6<br>ภาษาบาลี"
+					};
+					for( var i=0; i<tmp.length; i++ ) {
+						var j = parseInt(Math.floor(i/5));
+						$("#score_result_pat tr:eq("+j*2+")").append("<td width='70'>"+err_txt[tmp[i]]+"</td>");
+						$("#score_result_pat tr:eq("+(j*2+1)+")").append( "<td width='70'>"+score["pat"][tmp[i]]+"</td>" );
+					}
+
+					if( score["gpax"] < 0 ) { err[1] = 1; score["gpax"] = -1; }
+					if( score["gpax"] > 4 ) { err[1] = 1; score["gpax"] = 4; }
+					if( score["gpax"] == -1 ) { $("#score_result .summerize > div:eq(2)").hide(); _ref["score_gpax"] = false; }
+					$("#score_result .summerize .score_gpax").text( score["gpax"] );
+
+					if( _ref["score_pat"] == false ) {
+						$("#score_result .summerize .err").append("หมายเหตุ : เมื่อคุณไม่ได้กรอกคะแนน GAT PAT เลยแม้แต่วิชาเดียว เราจะวิเคราะห์คะแนน GAT PAT ที่สำหรับเตรียมสอบเดือนมีนา 57 ให้");
+					}
+
+					if( _ref["score_kku"] == false ) {
+						_ref["continue"] = false;
+						$("#score_result .summerize > div").hide();
+						$("#score_result .summerize .err_empty_inp").show();
+						$("#score_result > div:gt(1)").hide();
+					} else {
+						_ref["continue"] = true;
+						$("#score_result .summerize .err_empty_inp").hide();
+					}
+
+					sj_id = $("#enter_score .faculty .select_name").attr("alt");
+					calculation();
+
+					$("#enter_score").slideUp('slow',function() {
+						$("#score_result").fadeIn();
+					});
+				}
+			}
+
+			function calculation() {
+				if( !_ref["continue"] ) return ;
+				$("#score_advance").hide();
+				_ref["minmax"] = [0,0];
+
+				display_faculty();
+				calculation_standard();
+				calculation_advance();
+				calculation_minmax();
+				calculation_expect();
+				calculation_analysis();
+			}
+			function display_faculty() {
+				$("#score_faculty_name").show();
+				$("#score_faculty_name .display").show();
+				var $this = $("#score_faculty_name .display .name div:last");
+				$this.text("คณะ "+sj_id+" : "+G[sj_id]["name"]);
+				if( $this.text().length > 60 ) $this.css("font-size","15px");
+				else $this.css("font-size","22px");
+				$("#score_faculty_name .choose").hide();
+			}
+			function calculation_standard() {
+				var pass = true;
+				var S = [];
+				$("#score_standard").slideDown();
+				$("#score_standard .faculty_name").text(sj_id+" : "+G[sj_id]["name"]);
+				$("#score_standard .subject ul").html("");
+				for( var i=0; i<9; i++ ) {
+					if( G[sj_id]["kku"][_subject[i][0]].length ) {
+						var ap = "";
+						if( score["kku"][_subject[i][0]] == -1 ) { ap = "class='unaccept'"; pass = false; }
+						$("#score_standard .subject ul:first").append("<li "+ap+">"+_subject[i][1]+" : "+_subject[i][2]+"</li>");
+					}
+				}
+				for( var i=9; i<_subject.length; i++ ) {
+					if( G[sj_id]["pat"][_subject[i][0]].length ) {
+						var ap = "";
+						if( score["pat"][_subject[i][0]] == -1 && _ref["score_pat"] ) { ap = "class='unaccept'"; pass = false; }
+						$("#score_standard .subject ul:last").append("<li "+ap+">"+_subject[i][1]+" : "+_subject[i][2]+"</li>");
+					}
+				}
+
+				$("#score_standard .minimum").hide();
+				$("#score_standard .minimum ul").html("");
+				for( var i=0; i<_subject.length; i++ ) {
+					var type = i < 9 ? "kku" : "pat";
+					var full = type == "kku" ? 100 : 300;
+					if( G[sj_id][type][_subject[i][0]].length == 2 ) {
+						$("#score_standard .minimum").show();
+						var ap = "";
+						if( score[type][_subject[i][0]] < (G[sj_id][type][_subject[i][0]][1]/100)*full && _ref["score_"+type] ) { ap = "class='unaccept'"; pass = false; }
+						$("#score_standard .minimum ul")
+						.append("<li "+ap+">"+_subject[i][1]+" : "+_subject[i][2]+" ต้องมีคะแนนไม่ต่ำกว่า "+G[sj_id][type][_subject[i][0]][1]+" เปอร์เซ็นต์</li>");
+					}
+				}
+
+				$("#score_standard .other").hide();
+				if( parseInt(sj_id) >= 12 && parseInt(sj_id) <= 15 ) {
+					$("#score_standard .minimum").show();
+					var ap = "";
+					if( score["kku"][1]+score["kku"][2] < 60 ) { ap = "class='unaccept'"; pass = false; }
+					$("#score_standard .minimum ul").append("<li "+ap+">คะแนนวิชาภาษาไทย และวิชาสังคมศึกษา ต้องสอบให้ได้คะแนนรวมกันไม่ต่ำกว่า 30 เปอร์เซ็นต์</li>");
+				}
+				if( sj_id == "001" || sj_id == "009" ) {
+					$("#score_standard .other").show();
+					$("#score_standard .other ul").html("");
+					var ap = "";
+					if( score["gpax"] < 3.00 && _ref["score_gpax"] ) { ap = "class='unaccept'"; pass = false; }
+					$("#score_standard .other ul")
+					.append("<li "+ap+">GPAX จะต้องไม่ต่ำกว่า 3.00</li>");
+					var ss = pass ? calculation_advance("score_kku") : 0;
+					if( ss < 49.5 ) { ap = "class='unaccept'"; pass = false; }
+					$("#score_standard .other ul").append("<li "+ap+">คะแนนรวมทุกวิชา (ไม่รวม GPAX) ตามสัดส่วนต้องไม่ต่ำกว่า 50%<br>(ดูคะแนนแบบละเอียดได้ด้านล่าง)</li>");
+				}
+
+				$("#score_standard li:not(.unaccept)").each(function(n,$this) {
+					$($this).prepend("&#10004; ");
+				});
+				if( !pass ) {
+					_ref["continue"] = false;
+					$("#score_standard").css("background-color","#aa0808");
+					$("#score_standard .smileface").text(":(");
+					$("#score_standard .passed").text("เสียใจด้วย คะแนนของคุณไม่ผ่านเกณฑ์");
+					$("#score_standard li.unaccept").each(function(n,$this) {
+						$($this).prepend("&#10007; ");
+					});
+				} else {
+					$("#score_standard").css("background-color","#004903");
+					$("#score_standard .smileface").text(":D");
+					$("#score_standard .passed").text("ยินดีด้วย คะแนนคุณผ่านเกณฑ์ขั้นพื้นฐาน");
+
+				}
+			}
+			function calculation_advance(param) {
+
+				if( !_ref["continue"] ) return;
+				$("#score_advance").slideDown();
+
+				var subscore = [[0,0],[0,0],[0,0]];
+				for( var i=0; i<_subject.length; i++ ) {
+					var type = i < 9 ? "kku" : "pat";
+					var k = G[sj_id][type][_subject[i][0]];
+					if( k.length >= 1 ) {
+						if( type == "kku" ) subscore[0][0] += (k[0]/100)*score[type][_subject[i][0]];
+						else 				subscore[1][0] += (k[0]/100)*(score[type][_subject[i][0]]/3);
+						subscore[type == "kku" ? 0 : 1][1] += k[0];
+					}
+				}
+
+				function erf($x) {
+					var $pi = 3.1415927;
+					var $a = (8*($pi - 3))/(3*$pi*(4 - $pi));
+					var $x2 = $x * $x;
+
+					var $ax2 = $a * $x2;
+					var $num = (4/$pi) + $ax2;
+					var $denom = 1 + $ax2;
+
+					var $inner = (-$x2)*$num/$denom;
+					var $erf2 = 1 - Math.exp($inner);
+
+					return Math.sqrt($erf2);
+				}
+				function cdf($n)
+				{
+					if($n < 0)	return (1 - erf($n / Math.sqrt(2)))/2;
+					else 		return (1 + erf($n / Math.sqrt(2)))/2;
+				}
+				subscore[2][0] = cdf((score["gpax"] - Con["gpax_calc"]["mean"])/Con["gpax_calc"]["sd"])*5;
+
+				for( var i=0; i<3; i++ ) subscore[i][0] = Math.round(subscore[i][0]*10000)/10000;
+				if( !_ref["score_pat"] ) subscore[1][0] = -1;
+				if( !_ref["score_gpax"] ) subscore[2][0] = -1
+
+				$("#score_advance .notation").text("");
+				$("#score_advance .subscore_1 span:eq(0)").text( subscore[0][0] );
+				$("#score_advance .subscore_1 span:eq(2)").text( subscore[0][1] );
+				$("#score_advance .subscore_2 .notation").text("");
+				$("#score_advance .subscore_2 span:eq(0)").text( subscore[1][0] == -1 ? "ยังไม่คิดคะแนนส่วนนี้" : subscore[1][0] );
+				$("#score_advance .subscore_2 span:eq(2)").text( subscore[1][1] );
+				if( !_ref["score_pat"] ) {
+				$("#score_advance .notation").append("หมายเหตุ : คะแนนทั้งหมดนี้ยังไม่รวมคะแนน GAT PAT<br>");
+				}
+				$("#score_advance .subscore_3 span:eq(0)").text( subscore[2][0] == -1 ? "ยังไม่คิดคะแนนส่วนนี้" : subscore[2][0] );
+				if( !_ref["score_gpax"] ) {
+				$("#score_advance .notation").append("หมายเหตุ : คะแนนทั้งหมดนี้ยังไม่รวมคะแนน GPAX<br>");
+				} else {
+				$("#score_advance .notation").append("หมายเหตุ : คะแนน GPAX ที่คำนวณขึ้นใช้เกณฑ์ปี 56<br>( ค่าเฉลี่ย = "+Con["gpax_calc"]["mean"]+" , SD = "+Con["gpax_calc"]["sd"]+" )");
+				}
+
+
+				var added = 0;
+				var txt = "";
+				var tmp = []
+				for( var i=0; i<_subject.length; i++ ) {
+					var type = i < 9 ? "kku" : "pat";
+					var k = G[sj_id][type][_subject[i][0]];
+					if( k.length >= 1 ) {
+						tmp.push( [_subject[i][1]+"<br>"+_subject[i][2],k[0] == 0 ? "ไม่นำคะแนน<br>มาคิด" : k[0]+" %"] );
+					}
+				}
+				txt += "<tr class='greycolor'>"
+				for( var i=0; i<5 && i<tmp.length; i++ ) txt += "<td>"+tmp[i][0]+"</td>";
+				txt += "</tr>"
+				txt += "<tr>"
+				for( var i=0; i<5 && i<tmp.length; i++ ) txt += "<td>"+tmp[i][1]+"</td>";
+				txt += "</tr>"
+				if( tmp.length >= 5 ) {
+				txt += "<tr class='greycolor'>"
+				for( var i=5; i<tmp.length; i++ ) txt += "<td>"+tmp[i][0]+"</td>";
+				txt += "</tr>"
+				txt += "<tr>"
+				for( var i=5; i<tmp.length; i++ ) txt += "<td>"+tmp[i][1]+"</td>";
+				txt += "</tr>"
+				}
+				$("#score_advance .ratio_table").html(txt);
+				var sum = Math.max(0,subscore[0][0]) + Math.max(0,subscore[1][0]) + Math.max(0,subscore[2][0]);
+				sum = Math.round(sum*1000)/1000;
+				_ref["score"] = [];
+				_ref["score"]["all"] = sum;
+				$("#score_advance .summary").text( sum );
+
+				if( param == "score_kku" ) return subscore[0][0];
+			}
+			function calculation_minmax() {
+				$("#score_minmax").hide();
+				if( !_ref["continue"] ) return ;
+				$("#score_minmax").slideDown();
+
+				function checkmatch(a,b) {
+					var k = 0;
+					for( var i=0,j=0; i<a.length && j<b.length; i++,j++ ) {
+						if( a[i] != b[j] ) break;
+						k++;
+					}
+					for( var i=a.length-1,j=b.length-1; i>=0 && j>=0; i--,j-- ) {
+						if( a[i] != b[j] ) break;
+						k++;
+					}
+					return k/Math.max(a.length,b.length);
+				}
+
+				var ff = 0;
+				_ref["minmax"] = [0,0];
+				for( var year = 55; year <= 56; year++ ) {
+					var found = -1;
+					var best = 0;
+					for( var i=0; i<Con["minmax"][year].length; i++ ) {
+						var name = Con["minmax"][year][i][0].split(" ");
+						var sname = ( sj_id >= 140 ? "วิทยาเขตหนองคาย "+G[sj_id]["name"] : G[sj_id]["name"] ).split(" ");
+						name.shift();
+						for( var j=0; j<name.length; j++ ) {
+							if( $.trim(name[j]) == "" ) { name.splice(j,1); j--; }
+						}
+						var precision = 0;
+						var count = 0;
+						var j=0;
+						while( j<name.length ) {
+							for( var k=0; j<name.length; j++,k++ ) {
+								var tmp = "";
+								while( k < sname.length && (tmp = checkmatch( name[j],sname[k] )) < 0.9 ) k++;
+								if( k >= sname.length ) break;
+								precision += tmp;
+								count++;
+							}
+							j++;
+						}
+						if( count > Math.max(name.length,sname.length)-2 && precision > best ) {
+							if( Con["minmax"][year][i][1] == "" ) found = -1;
+							else found = i;
+							best = precision;
+						}
+					}
+
+					if( found != -1 ) {
+						$("#score_minmax .year"+year+" .faculty_name").text("คะแนนจาก "+Con["minmax"][year][found][0]+" ปี 25"+year);
+						$("#score_minmax .year"+year+" table").show();
+						$("#score_minmax .year"+year+" .maxnum").text(Con["minmax"][year][found][1]);
+						$("#score_minmax .year"+year+" .minnum").text(Con["minmax"][year][found][2]);
+						_ref["minmax"][0] = Math.max(Con["minmax"][year][found][1],_ref["minmax"][0]);
+						_ref["minmax"][1] = Math.max(Con["minmax"][year][found][2],_ref["minmax"][1]);
+						ff++;
+					} else {
+						$("#score_minmax .year"+year+" .faculty_name").text("ขออภัย ไม่พบคะแนนปี "+year+" จากสาขานี้");
+						$("#score_minmax .year"+year+" table").hide();
+					}
+				}
+
+			}
+			function calculation_expect() {
+				$("#score_expect").hide();
+				if( !_ref["minmax"][0] ) return ;
+				$("#score_expect").slideDown();
+
+				var expect = ( _ref["minmax"][0] + _ref["minmax"][1] )/2;
+				expect = Math.round(expect*1000)/1000;
+				var diff = expect - _ref["score"]["all"];
+				diff = Math.round(diff*1000)/1000;
+				$("#score_expect .score_1 span:eq(0)").text(_ref["score"]["all"]);
+				$("#score_expect .score_1 span:eq(1)").text(_ref["minmax"][1]);
+				$("#score_expect .score_1 span:eq(2)").text(_ref["minmax"][0]);
+				$("#score_expect .score_1 span:eq(3)").text(expect);
+				$("#score_expect .score_more").text( Math.max(0,diff) );
+
+				$("#bar_score rect:eq(2)").attr("width",(_ref["score"]["all"]/100)*900);
+				$("#bar_score rect:eq(1)").attr("width",(expect/100)*900);
+				$("#bar_score line:eq(0)").attr({"x1":(_ref["minmax"][1]/100)*900,"x2":(_ref["minmax"][1]/100)*900});
+				$("#bar_score line:eq(1)").attr({"x1":(_ref["minmax"][0]/100)*900,"x2":(_ref["minmax"][0]/100)*900});
+				$("#bar_score line:eq(2)").attr({"x1":(expect/100)*900,"x2":(expect/100)*900});
+				$("#bar_score text:eq(0)").text("คะแนนที่ได้ "+_ref["score"]["all"]);
+				$("#bar_score text:eq(1)").attr("x",(expect/100)*900-80);
+				$("#bar_score text:eq(1)").text("คะแนนที่คาดหวัง "+expect);
+
+				$("#score_expect .score_2 span:eq(0)").text(expect);
+				$("#score_expect .score_2 p:gt(1)").remove();
+
+				var now = _ref["score"]["all"];
+				var txt = "<p style='font-weight:bold;'>และคุณได้ "+now+" คะแนน ";
+				if( now > _ref["minmax"][0]+5 ) { txt += "โชคดีอย่างมาก !!! คะแนนของคุณโหดสลัดห่าน ไม่ติดให้ต่อยได้เลย ยินดีด้วย :D</p>"; }
+				else if( now > _ref["minmax"][0] ) { txt += "โชคดีมาก !!! คะแนนของคุณโหดมาก กระดิกเท้ารอได้เลย :D</p>"; }
+				else if( now > expect ) { txt += "โชคดี คะแนนของคุณดีมาก ไม่ต้องทำอะไร ก็ติดแล้ว</p>"; }
+				else if( now > _ref["minmax"][1]+5 ) txt += "โชคดี คะแนนของคุณผ่านเกณฑ์ แต่ถ้าคุณจะฟิตเอาคะแนนให้สูงกว่านี้ก็ไม่เสียหายอะไร</p>";
+				else if( now > _ref["minmax"][1] ) txt += "คะแนนของคุณรอดเส้นตาย แต่คุณก็ยังประมาทไม่ได้นะ</p>";
+				else if( now > _ref["minmax"][1]-5 ) txt += "เกือบแล้ว คุณต้องพยายามอีกนิดนะ :)</p>";
+				else if( now > _ref["minmax"][1]-10 ) txt += "คะแนนของคุณน่าเป็นห่วง แต่ไม่มีความฝันไหนไกลเกินคว้า</p>";
+				else if( now > _ref["minmax"][1]-15 ) txt += "คุณต้องพยายามอย่างหนักหน่อยละ คะแนนคุณค่อนข้างอันตราย</p>";
+				else txt += "คะแนนคุณอยู่ในเกณฑ์อันตรายมาก นับตั้งแต่วันนี้คุณต้องทำการบ้านอย่างหนักและอ่านหนังสือให้มากๆ เพื่อคณะของคุณ</p>";
+				$("#score_expect .score_2").append(txt);
+
+				if( !_ref["score_gpax"] && !(now > expect) ) $("#score_expect .score_2").append("<p>ตอนนี้คะแนน GPAX ว่างเปล่า คุณสามารถย้อนกลับไปกรอกคะแนน GPAX แล้วกลับมาวิเคราะห์คะแนนอีกครั้ง เพื่อดูแนวโน้มของคะแนน</p>");
+				if( !_ref["score_pat"] && !(now > expect) ) $("#score_expect .score_2").append("<p>ตอนนี้คุณยังไม่ได้สอบ GAT PAT ใช่ไหม ลองเลื่อนไปดูข้างล่างเพื่อดูว่าคุณต้องทำคะแนนอีกเท่าไร ถึงจะสมหวัง :D แต่ถ้าคุณสอบแล้ว ตอนนี้ก็ได้แต่ภาวนา</p>");
+
+				if( now > expect && expect != 0 ) _ref["continue"] = false;
+				_ref["score"]["expect"] = expect;
+			}
+			function calculation_analysis() {
+				$("#score_analysis").hide();
+				if( !_ref["continue"] || _ref["score_pat"] ) return ;
+				$("#score_analysis").slideDown();
+
+				_ref["score"]["expect"] = _ref["score"]["expect"] || 0;
+
+				$("#score_analysis .slider_1").noUiSlider({
+					range:[_ref["score"]["all"],Math.min(100,_ref["score"]["all"]+40)],
+					handles:1,
+					start:_ref["score"]["expect"],
+					step:0.001,
+					connect:"lower",
+					serialization:{
+						to:[change_score_analysis],
+						resolution:0.001
+					}
+				},true);
+
+				$("#bar_score_2 rect:eq(2)").attr("width",(_ref["score"]["expect"]/100)*900);
+				$("#bar_score_2 rect:eq(1)").attr("width",(_ref["score"]["expect"]/100)*900);
+				$("#bar_score_2 line:eq(0)").attr({"x1":(_ref["minmax"][1]/100)*900,"x2":(_ref["minmax"][1]/100)*900});
+				$("#bar_score_2 line:eq(1)").attr({"x1":(_ref["minmax"][0]/100)*900,"x2":(_ref["minmax"][0]/100)*900});
+				$("#bar_score_2 line:eq(2)").attr({"x1":(_ref["score"]["expect"]/100)*900,"x2":(_ref["score"]["expect"]/100)*900});
+				$("#bar_score_2 text:eq(0)").attr("x",(_ref["score"]["expect"]/100)*900-80);
+				$("#bar_score_2 text:eq(0)").text("คะแนนที่คาดหวัง "+_ref["score"]["expect"]);
+
+				if( _ref["minmax"][0] ) {
+					$("#bar_score_2").show();
+					$("#score_analysis .bar_score_2").text("");
+					$("#score_analysis .summerize")
+					.html(	"<div style='color:#400'>คะแนนปัจจุบัน : "+_ref["score"]["all"]+"</div>"+
+							"<div style='color:#F00;'>คะแนนต่ำสุด : "+_ref["minmax"][1]+"</div>"+
+							"<div style='color:#460d57;'>คะแนนสูงสุด : "+_ref["minmax"][0]+"</div>"+
+							"<div style='color:#F60; font-weight:bold;'>คะแนนที่คาดหวัง : "+_ref["score"]["expect"]+"</div>" );
+				} else {
+					$("#bar_score_2").hide();
+					$("#score_analysis .bar_score_2").html("ไม่พบคะแนนสูงต่ำในสาขานี้");
+					$("#score_analysis .summerize")
+					.html(	"<div style='color:#400'>คะแนนปัจจุบัน : "+_ref["score"]["all"]+"</div>"+
+							"<div style='color:#F00;'>คะแนนต่ำสุด : ไม่พบคะแนน</div>"+
+							"<div style='color:#460d57;'>คะแนนสูงสุด : ไม่พบคะแนน</div>"+
+							"<div style='color:#F60; font-weight:bold;'>คะแนนที่คาดหวัง : ไม่พบคะแนน</div>" );
+				}
+
+				var txt = "<tr style='color:#400; font-size:16px;'>";
+				var tmp = [];
+				var ratio_sum = 0;
+				_ref["analysis"] = {};
+				_ref["analysis"]["pat"] = [];
+				for( var i in G[sj_id]["pat"] ) {
+					var k = G[sj_id]["pat"][i];
+					if( k.length ) {
+						for( var j=0; j<_subject.length; j++ ) {
+							if( _subject[j][0] == i ) {
+								_ref["analysis"]["pat"].push( _subject[j][0] );
+								tmp.push( _subject[j] );
+								break;
+							}
+						}
+					}
+				}
+				var col = ["034b06","0187b8","270058","400"];
+
+				txt = "<tr>";
+				for( var i=0; i<tmp.length; i++ ) {
+					txt += "<td style='color:#"+col[i]+"; width:"+(100/tmp.length)+"%;'>";
+					txt += "<div>"+tmp[i][1]+"<br>"+tmp[i][2]+"</div>";
+					txt += "<div style='font-size:60px; margin-top:4px;'>"+G[sj_id]["pat"][tmp[i][0]][0]+"<span style='font-size:20px;'> %</span></div>";
+				}
+				txt += "</tr><tr><td colspan='"+tmp.length+"'><div style='text-align:center; color:#0e5e80; padding-top:7px;'>เลือกคะแนนที่คิดว่าจะทำได้อย่างน้อย</div></td></tr><tr>"
+				for( var i=0; i<tmp.length; i++ ) {
+					txt += "<td style='color:#"+col[i]+";'>"
+					txt += "<div class='num_"+tmp[i][0]+"' style='font-size:80px; margin-top:4px;'>100</div>"
+					txt += "<div class='wanted_score_"+tmp[i][0]+"' style='width:80%; margin:auto; background-color:#"+col[i]+"'></div>"
+					txt += "</td>";
+					ratio_sum += parseInt(G[sj_id]["pat"][tmp[i][0]][0]);
+				}
+				txt += "</tr>"
+				$("#score_analysis .ratio_sum").text(ratio_sum+" %");
+				$("#score_analysis .wanted").html(txt);
+				for( var i=0; i<tmp.length; i++ ) {
+					$("#score_analysis .wanted .wanted_score_"+tmp[i][0]).noUiSlider({
+						range:[0,300],
+						handles:1,
+						start:0,
+						step:1,
+						connect:"lower",
+						serialization:{
+							to:[$("#score_analysis .wanted .num_"+tmp[i][0]),"text"],
+							resolution:1
+						}
+					},true);
+				}
+
+				$("#analysis_result").hide();
+			}
+			function analysis_result() {
+				$("#analysis_result").slideUp(function(){
+
+				if( typeof(_ref["analysis"]) == "undefined" || !_ref["continue"] ) return ;
+				var ss = $("#score_analysis .slider_1").val();
+				var pat = [];
+				var ratio = [];
+				var mean = [];
+				var sd = [];
+				var wanted = [];
+				var sum_ratio = 0;
+
+				for( var k in _ref["analysis"]["pat"] ) pat.push(_ref["analysis"]["pat"][k]);
+
+				if( pat.length > 3 ) {
+					$("#score_analysis .log_analysis").text("ขออภัย โปรแกรมรองรับการคำนวณมากสุด 3 วิชา ดังนั้นผลลัพธ์ที่คำนวณขึ้นนี้จะยังไม่รวมวิชา GAT");
+					for( var i=0; i<pat.length; i++ ) if( pat[i] == 85 ) { pat.splice(i,1); break; }
+				}
+				for( var i=0; i<pat.length; i++ ) {
+					var j = pat[i],k;
+					ratio.push( G[sj_id]["pat"][j][0] );
+					sum_ratio += parseInt(G[sj_id]["pat"][j][0]);
+					for( k=0; k<_subject.length; k++ ) if( _subject[k][0] == j ) break;
+					mean.push( Con["pat_minmax"]["56.1"][_subject[k][1].toLowerCase()][0] );
+					sd.push( Con["pat_minmax"]["56.1"][_subject[k][1].toLowerCase()][1] );
+				}
+
+				for( var i=0; i<pat.length; i++ ) {
+					wanted.push( $("#score_analysis .wanted .wanted_score_"+pat[i]).val() );
+				}
+
+				var wanted_exceed = 0;
+				for( var i=0; i<pat.length; i++ ) wanted_exceed += wanted[i]/300*ratio[i];
+				if( wanted_exceed > ss-_ref["score"]["all"] ) {
+					console.log(55);
+					$("#score_analysis .log").slideUp(function() {
+						$("#score_analysis .log")
+						.html(	"<div style='padding:50px 0px; color:#0e5e80;'>คะแนนที่คาดว่าจะทำได้ (คะแนนที่คุณตั้งไว้แยกรายวิชา) สูงพอที่จะตรงตามคะแนนรวมที่คุณต้องการ<br>"+
+								"<span style='font-weight:bold;'>คุณจะได้คะแนนสูงถึง "+(Math.round((wanted_exceed+_ref["score"]["all"])*1000)/1000)+
+								" คะแนน เกินคะแนนรวมที่คุณตั้งไว้ซึ่งคุณตั้งไว้ที่ "+ss+" คะแนน</span><br>"+
+								"ไม่จำเป็นจะต้องวิเคราะห์เพิ่ม</div>")
+						.slideDown();
+					});
+					return ;
+				}
+				else if( ss > _ref["score"]["all"]+sum_ratio ) {
+					$("#score_analysis .log").slideUp(function() {
+						$("#score_analysis .log")
+						.html(
+							"<div style='padding:40px 0px;'>คุณไม่สามารถตั้งคะแนนระดับนี้ได้ เนื่องจากสัดส่วนของ GAT PAT นั้นมีเพียงแค่ "+sum_ratio+" คะแนนเท่านั้น ซึ่งคะแนนของคุณคือ "+_ref["score"]["all"]+
+							" <span style='color:#400'>แม้ว่าคุณจะทำข้อสอบ GAT PAT ได้เต็มทุกวิชา</span> แต่เมื่อรวมคะแนนกับคะแนนที่คำนวณก่อนหน้านี้ได้แล้ว "+
+							"<div style='font-weight:bold; color:#400;'>คุณได้คะแนนสูงสุดคือ "+(_ref["score"]["all"]+sum_ratio)+" เท่านั้น</div></div>")
+						.slideDown();
+					});
+					return ;
+				}
+				else { $("#score_analysis .log").slideUp(); }
+
+				function erf($x) {
+					var $pi = 3.1415927;
+					var $a = (8*($pi - 3))/(3*$pi*(4 - $pi));
+					var $x2 = $x * $x;
+
+					var $ax2 = $a * $x2;
+					var $num = (4/$pi) + $ax2;
+					var $denom = 1 + $ax2;
+
+					var $inner = (-$x2)*$num/$denom;
+					var $erf2 = 1 - Math.exp($inner);
+
+					return Math.sqrt($erf2);
+				}
+				function cdf($n)
+				{
+					if($n < 0)	return (1 - erf($n / Math.sqrt(2)))/2;
+					else 		return (1 + erf($n / Math.sqrt(2)))/2;
+				}
+
+				var best = [999999999,999999999];
+				var tmp_result = [0,0,0];
+				var result = [];
+				var t = 0;
+				function scoring(id,left) {
+					if( id == pat.length-1 ) {
+						var kscore = Math.round(left/ratio[id]*300);
+						if( kscore < wanted[id] ) return ;
+						if( kscore > 300 ) return ;
+						tmp_result[id] = kscore;
+
+						var b = [0,0];
+						for( var i=0; i<pat.length; i++ ) {
+							b[0] += Math.pow( (tmp_result[i]-mean[i])/sd[i]*(tmp_result[i]-mean[i]),2 );
+							b[1] += Math.pow( Math.pow(cdf((tmp_result[i]-mean[i])/sd[i]),2)*Math.max(tmp_result[i]-mean[i],0),2 );
+						}
+						if( b[0] < best[0] ) {
+							best[0] = b[0];
+							result[0] = tmp_result.slice(0);
+						}
+						if( b[1] < best[1] ) {
+							best[1] = b[1];
+							result[1] = tmp_result.slice(0);
+						}
+						return ;
+					}
+					for( var i=wanted[id]; i<=300; i++ ) {
+						t++;
+						if( i/300*ratio[id] > left ) break;
+						tmp_result[id] = i;
+						scoring( id+1,left-(i/300*ratio[id]) );
+					}
+				}
+				scoring(0,ss-_ref["score"]["all"]);
+
+				var col = ["034b06","0187b8","270058","400"];
+				$("#analysis_result .rec1 tr,#analysis_result .rec2 tr").html("");
+				for( var i=0; i<pat.length; i++ ) {
+					var txt = "<td style='"+(i == 0 ? "": "border-left:5px dotted #ffc888;")+"width:"+(100/pat.length)+"%; color:#"+col[i]+"'>";
+					for( var j=0; j<_subject.length; j++ )
+						if( _subject[j][0] == pat[i] ) { txt += "<div>"+_subject[j][1]+"<br>"+_subject[j][2]+"</div>"; break; }
+					txt += "<div style='font-size:100px;'>"
+					$("#analysis_result .rec1 tr").append(txt+result[0][i]+"</div></td>");
+					$("#analysis_result .rec2 tr").append(txt+result[1][i]+"</div></td>");
+				}
+
+				$("#analysis_result").slideDown('slow');
+				$('html, body').animate({scrollTop: $(document).height()}, 800);
+
+				});
+			}
+
+			function change_score_analysis( score ) {
+				$("#score_analysis .score_need").text(score);
+				var color = "";
+				if( score > _ref["minmax"][0] ) color = "#460d57";
+				else if( score > _ref["score"]["expect"] ) color = "#400";
+				else if( score > _ref["minmax"][1] ) color = "#F60";
+				else color = "#F00";
+				$("#score_analysis .score_need").css("color",color);
+				$("#bar_score_2 rect:eq(2)").attr("width",(score/100)*900);
+			}
+			function change_faculty(param) {
+				if( param == 0 ) {
+					$("#score_faculty_name .display").hide();
+					$("#score_faculty_name .choose").show();
+				} else if( param == 1 ) {
+					$("#score_faculty_name .display").show();
+					$("#score_faculty_name .choose").hide();
+				} else if( param == 2 ) {
+					var q = $("#score_faculty_name .choose input").val();
+					var txt = "";
+					var tmp = [];
+					for( var id in G ) {
+						if( (id+" : "+G[id]["name"]).indexOf(q) != -1 ) tmp.push(id);
+					}
+					tmp.sort();
+					for( var i=0; i<tmp.length; i++ ) {
+						var id = tmp[i];
+						txt += "<li onclick='change_faculty([3,"+parseInt(id)+"])'>"+id+" : "+G[id]["name"]+"</li>";
+					}
+					if( txt == "" ) txt = "<li>ไม่ค้นพบสาขาใดๆที่ตรงกับชื่อนี้ กรุณาพิมพ์คำหลักๆ เช่น วิศว แพทย์ วิทยาการ วิทยาศาสตร์ เป็นต้น</li>";
+					$("#score_faculty_name .choose .picup").html(txt);
+				} else if( typeof(param) == "object" && param[0] == 3 ) {
+					_ref["continue"] = true;
+					param[1] = num_to_string(param[1]);
+					$("#enter_score .faculty .select_name").text( param[1]+" : "+G[param[1]]["name"] );
+					$("#enter_score .faculty .select_name").attr("alt",param[1]);
+					sj_id = param[1];
+					var k = 0;
+					$("#score_result > div:gt(2)").slideUp(function() {
+						if( ++k == $("#score_result > div:gt(2)").length ) calculation();
+					});
+				}
+			}
+			function reedit() {
+				$("#score_result").fadeOut('slow',function() {
+					$("#enter_score").slideDown();
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="share">
+			<div style="padding:7px;">
+				<div class="fleft"><a href="http://project.kosatestudioc">Kosate Studio &copy; 2013</a></div>
+				<div class="fright">
+					<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fkosatestudio.com%2Fproject%2Fkku_score%2F&amp;width=80&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+					<iframe id="share-twt" allowtransparency="true" frameborder="0" scrolling="no"
+					style="width:60px; height:20px;"></iframe>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div id="content">
+			<div class="head">
+				<div class="title">โปรแกรมคำนวณคะแนนมหาวิทยาลัยขอนแก่น</div>
+			</div>
+			<div id="enter_score">
+				<div class="error">
+					ขออภัยในความไม่สะดวก<br>
+					ขณะนี้ทางเว็บกำลังมีปัญหาชั่วคราว กรุณาโหลดเว็บเพจใหม่อีกครั้ง
+				</div>
+				<div class="kku_score score">
+					<div class="title"><span class="num">1</span> คะแนนกลุ่มวิชาหลัก (มข)</div>
+					<div style="padding:12px 25px;">
+						<table cellpadding="0" cellspacing="0">
+						<tr>
+							<td>01</td>
+							<td>02</td>
+							<td>03</td>
+							<td>04</td>
+							<td>05</td>
+							<td>06</td>
+							<td>07</td>
+							<td>08</td>
+							<td>09</td>
+						</tr>
+						<tr class="subname">
+							<td>ภาษาไทย</td>
+							<td>สังคมศึกษา</td>
+							<td>ภาษาอังกฤษ</td>
+							<td>คณิตศาสตร์ (วิทย์)</td>
+							<td>วิทยาศาสตร์ทั่วไป</td>
+							<td>เคมี</td>
+							<td>ชีววิทยา</td>
+							<td>ฟิสิกส์</td>
+							<td>คณิตศาสตร์ (ศิลป์)</td>
+						</tr>
+						<tr class="input">
+							<td><input type="text" id="input_kku_01" maxlength="3" /></td>
+							<td><input type="text" id="input_kku_02" maxlength="3" /></td>
+							<td><input type="text" id="input_kku_03" maxlength="3" /></td>
+							<td><input type="text" id="input_kku_04" maxlength="3" /></td>
+							<td><input type="text" id="input_kku_05" maxlength="3" /></td>
+							<td><input type="text" id="input_kku_06" maxlength="3" /></td>
+							<td><input type="text" id="input_kku_07" maxlength="3" /></td>
+							<td><input type="text" id="input_kku_08" maxlength="3" /></td>
+							<td><input type="text" id="input_kku_09" maxlength="3" /></td>
+						</tr>
+						</table>
+						<div class="greycolor" style="padding:7px 0px 0px 5px;">หมายเหตุ : ไม่จำเป็นต้องกรอกครบทุกช่อง</div>
+					</div>
+				</div>
+				<div class="pat_score score">
+					<div class="title"><span class="num">2</span> คะแนน GAT PAT</div>
+					<div style="padding:12px 25px;">
+						<table cellpadding="0" cellspacing="0">
+						<tr class="headname">
+							<td>GAT</td>
+							<td>PAT 1</td>
+							<td>PAT 2</td>
+							<td>PAT 3</td>
+							<td>PAT 4</td>
+							<td>PAT 5</td>
+							<td>PAT 6</td>
+						</tr>
+						<tr class="subname">
+							<td>ความถนัดทั่วไป</td>
+							<td>คณิตศาสตร์</td>
+							<td>วิทยาศาสตร์</td>
+							<td>วิศวกรรมศาสตร์</td>
+							<td>สถาปัตยกรรม</td>
+							<td>วิชาชีพครู</td>
+							<td>ศิลปกรรม</td>
+						</tr>
+						<tr class="input">
+							<td><input type="text" id="input_pat_85" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_71" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_72" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_73" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_74" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_75" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_76" maxlength="3" /></td>
+						</tr>
+						</table>
+						<table cellpadding="0" cellspacing="0" style="margin-top:7px;">
+						<tr class="headname">
+							<td>PAT 7.1</td>
+							<td>PAT 7.2</td>
+							<td>PAT 7.3</td>
+							<td>PAT 7.4</td>
+							<td>PAT 7.5</td>
+							<td>PAT 7.6</td>
+						</tr>
+						<tr class="subname">
+							<td>ภาษาฝรั่งเศส</td>
+							<td>ภาษาเยอรมัน</td>
+							<td>ภาษาญี่ปุ่น</td>
+							<td>ภาษาจีน</td>
+							<td>ภาษาอาหรับ</td>
+							<td>ภาษาบาลี</td>
+						</tr>
+						<tr class="input">
+							<td><input type="text" id="input_pat_77" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_78" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_79" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_80" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_81" maxlength="3" /></td>
+							<td><input type="text" id="input_pat_82" maxlength="3" /></td>
+						</tr>
+						</table>
+						<div class="greycolor" style="padding:7px 0px 0px 5px;">
+							<span style="color:red;">หมายเหตุ : ขณะนี้ยังไม่มีการจัดสอบ GAT PAT เกิดขึ้น เว้นว่างเอาไว้เพื่อให้โปรแกรมประเมิณคะแนน GAT PAT โดยอัตโนมัติ</span><br>
+							หมายเหตุ : ไม่จำเป็นต้องกรอกครบทุกช่อง และ PAT 7 กรอกได้แค่ช่องเดียวเท่านั้น
+						</div>
+					</div>
+				</div>
+				<div class="gpax_score score">
+					<div class="title"><span class="num">3</span> เกรดเฉลี่ย (GPAX)</div>
+					<div style="padding:12px 25px;">
+						<table cellpadding="0" cellspacing="0">
+						<tr>
+							<td style="font-size:14px;">GPAX</td>
+						</tr>
+						<tr class="subname">
+							<td>เกรดเฉลี่ย</td>
+						</tr>
+						<tr class="input">
+							<td><input type="text" id="input_gpax" maxlength="4" /></td>
+						</tr>
+						</table>
+						<div class="greycolor" style="padding:5px 0px 0px 5px;">หมายเหตุ : กรอกก็ได้ ไม่กรอกก็ได้ โปรแกรมจะชดเชยคะแนนให้อัตโนมัติ</div>
+					</div>
+				</div>
+				<div class="faculty score">
+					<div class="title"><span class="num">4</span> คณะ/สาขา ที่จะเรียน</div>
+					<div style="padding:20px 25px 12px;">
+						<div class="choose">
+							<div>
+								<input type="text" class="input" onkeyup="find_faculty()" placeholder="พิมพ์เพื่อค้นหาคณะ" />
+								<input type="button" class="find" onclick="find_faculty()" value="ค้นหาคณะ" />
+							</div>
+							<div class="list">
+							</div>
+							<div class="greycolor" style="padding:3px 0px 0px 5px;">พิมพ์ชื่อคณะหรือรหัสคณะลงบนกล่องข้อความ แล้วคลิกเลือกได้เลย</div>
+						</div>
+						<div class="select" style="display:none;">
+							<div class="select_name">none</div>
+							<div class="select_remove" onclick="find_faculty()">เลือกคณะอื่น</div>
+							<div style="clear:both"></div>
+						</div>
+					</div>
+				</div>
+				<div class="submit">
+					<input type="button" value="เริ่มคำนวณคะแนนเล้ย" onclick="prepare_calc()">
+				</div>
+			</div>
+			<div id="score_result" style="display:none;">
+				<div class="summerize">
+					<div class="fleft">
+						<div style="text-align:center; font-weight:bold;">คะแนน มข</div>
+						<table id="score_result_kku" cellpadding="0" cellspacing="10" style="text-align:center;">
+							<tr class="greycolor">
+							</tr>
+							<tr>
+							</tr>
+							<tr class="greycolor">
+							</tr>
+							<tr>
+							</tr>
+						</table>
+					</div>
+					<div class="fleft" style="margin-left:20px;">
+						<div style="text-align:center; font-weight:bold;">คะแนน GAT PAT</div>
+						<table id="score_result_pat" cellpadding="0" cellspacing="10" style="text-align:center;">
+							<tr class="greycolor">
+							</tr>
+							<tr>
+							</tr>
+							<tr class="greycolor">
+							</tr>
+							<tr>
+							</tr>
+						</table>
+					</div>
+					<div class="fleft" style="margin-left:20px;">
+						<div style="text-align:center; font-weight:bold;">GPAX</div>
+						<div style="text-align:center; padding-top:10px;" class="score_gpax"></div>
+					</div>
+					<div class="clear"></div>
+					<div class="err greycolor" style="text-align:center; padding-bottom:7px;">
+					</div>
+					<div class="err_empty_inp" style="text-align:center; padding-bottom:37px; padding-top:20px; display:none;">
+						กรุณากรอกข้อมูลอย่างน้อย 1 ช่องสำหรับคะแนนวิชาหลัก (มข) เพื่อนำคะแนนทั้งหมดมาวิเคราะห์ กดกลับไปแก้ไขข้อมูลเพื่อเพิ่มข้อมูล
+					</div>
+				</div>
+				<div class="reverse" onclick="reedit()">
+					กลับไปแก้ไขคะแนนใหม่
+				</div>
+				<div id="score_faculty_name">
+					<div class="display">
+						<div class="fleft name">
+							<div style="font-size:22px;"></div>
+						</div>
+						<div class="fright change" style="font-size:17px; width:150px; text-align:center;" onclick="change_faculty(0)">เปลี่ยนคณะ</div>
+						<div class="clear"></div>
+					</div>
+					<div class="choose" style="display:none;">
+						<input type="text" class="fleft" style="font-size:20px;" onkeyup="change_faculty(2)" placeholder="พิมพ์เพื่อเลือกคณะ" />
+						<div class="fright change" style="font-size:17px; width:150px; text-align:center;" onclick="change_faculty(1)">ยกเลิก</div>
+						<div class="clear"></div>
+						<ul class="picup">
+						</ul>
+					</div>
+				</div>
+				<div id="score_standard">
+					<div class="fleft" style="width:160px;">
+						<div class="smileface" style="font-size:150px; text-align:center;">:D</div>
+					</div>
+					<div class="fleft" style="margin-left:50px; width:600px;">
+						<div class="passed" style="font-size:30px;">ผ่านเกณฑ์การประเมิณ</div>
+						<div class="faculty_name" style="padding-bottom:12px; font-size:18px;">คณะพยาบาลศาสตร์</div>
+						<div>
+							<div class="subject">
+								<div>วิชาที่จำเป็นต้องสอบสำหรับสาขานี้</div>
+								<table style="width:600px;" cellspacing="7">
+									<tr>
+									<td style="text-align:center;">วิชาหลัก (มข)</td>
+									<td style="text-align:center;">GAT PAT</td>
+									</tr>
+									<tr valign="top">
+									<td><ul></ul></td>
+									<td><ul></ul></td>
+									</tr>
+								</table>
+							</div>
+							<div class="minimum">
+								<div>เกณฑ์คะแนนขั้นต่ำ</div>
+								<ul style="padding:5px 0px 5px 40px;"></ul>
+							</div>
+							<div class="other">
+								<div>เกณฑ์อื่นๆ</div>
+								<ul style="padding:5px 0px 5px 50px;"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div style="margin-top:5px; font-size:10px; color:#AAA;">
+						<div>เกณฑ์การประเมิณทั้งหมดอ้างอิงจาก http://reg2.kku.ac.th/eregistration/2557/dprogram57.pdf</div>
+					</div>
+				</div>
+				<div id="score_advance">
+					<div class="fleft" style="width:500px; margin-right:30px;">
+						<div style="font-size:20px; margin-bottom:8px;">คำนวณคะแนน</div>
+						<div>สัดส่วนคะแนน</div>
+						<table class="ratio_table" cellspacing="4" style="width:450px; text-align:center; margin-top:12px;"></table>
+						<div style="margin-top:7px;">
+							<div>คะแนน ( แบบแยกย่อย )</div>
+							<ul style="margin-top:5px;">
+								<li class="subscore_1">คะแนนเฉพาะกลุ่มวิชาหลัก : <span style="color:#400; font-weight:bold;"></span> <span class="greycolor">( คิด <span></span> % )</span></li>
+								<li class="subscore_2">คะแนนเฉพาะวิชา GAT PAT : <span style="color:#400; font-weight:bold;"></span> <span class="greycolor">( คิด <span></span> % )</span></li>
+								<li class="subscore_3">คะแนน GPAX : <span style="color:#400; font-weight:bold;"></span> <span class="greycolor">( คิด 5 % )</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="fleft" style="text-align:center;">
+						<div style="font-size:24px; margin-top:30px;">ผลรวมคะแนนทั้งหมด</div>
+						<div class="summary">23.352</div>
+						<div class="greycolor notation">
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div class="greycolor" style="font-size:10px;">การคิดคะแนนทั้งหมดมาจาก http://reg2.kku.ac.th/eregistration/2556/howtorank2556.pdf</div>
+				</div>
+				<div id="score_minmax">
+					<div style="font-size:18px;">คะแนนสูงสุดต่ำสุดของสาขานี้</div>
+					<div class="year55">
+						<div style="text-align:center; margin-top:5px;" class="faculty_name"></div>
+						<table cellpadding="0" style="width:100%; text-align:center; margin-top:7px;">
+							<tr>
+							<td style="border:none; border-right:3px dashed #FFF; width:50%;">
+								<div>สูงสุด</div>
+								<div class="maxnum"></div>
+							</td>
+							<td>
+								<div>ต่ำสุด</div>
+								<div class="minnum"></div>
+							</td>
+							</tr>
+						</table>
+					</div>
+					<div class="year56">
+						<div style="text-align:center; margin-top:15px;" class="faculty_name"></div>
+						<table cellpadding="0" style="width:100%; text-align:center; margin-top:7px;">
+							<tr>
+							<td style="border:none; border-right:3px dashed #FFF; width:50%;">
+								<div>สูงสุด</div>
+								<div class="maxnum"></div>
+							</td>
+							<td>
+								<div>ต่ำสุด</div>
+								<div class="minnum"></div>
+							</td>
+							</tr>
+						</table>
+					</div>
+					<div class="greycolor" style="font-size:10px; margin-top:17px;">
+						อ้างอิงจาก คะแนนสูงต่ำปี 55 http://reg2.kku.ac.th/eregistration/2555/minmaxscore55x.ASP<br>
+						และคะแนนสูงต่ำปี 56 http://reg2.kku.ac.th/eregistration/2556/minmaxscore56x.ASP
+					</div>
+				</div>
+				<div id="score_expect">
+					<div style="font-size:20px;">มีโอกาสจะติดไหม ??</div>
+					<svg width="850" height="87" style="margin-top:7px;" id="bar_score">
+						<rect y="10" width="900" height="30" style="fill:rgba(68,0,0,0.05);" />
+						<rect y="10" width="550" height="30" style="fill:rgba(250,150,0,1);" />
+						<rect y="10" width="400" height="30" style="fill:rgb(68,0,0);" />
+						<text x="0" y="63" style="fill:rgb(68,0,0);">คะแนนที่ได้ 51.25%</text>
+						<text x="450" y="75" style="fill:rgb(255,134,0);">คะแนนที่คาดหวัง 51.256%</text>
+						<g fill="none" stroke="rgb(255,0,0)" stroke-width="4">
+							<line stroke-dasharray="4,4" x1="500" y1="0" x2="500" y2="50" />
+						</g>
+						<g fill="none" stroke="rgb(77,5,100)" stroke-width="4">
+							<line stroke-dasharray="4,4" x1="600" y1="0" x2="600" y2="50" />
+						</g>
+						<g fill="none" stroke="rgb(255,150,0)" stroke-width="4">
+							<line x1="550" y1="0" x2="550" y2="55" />
+						</g>
+					</svg>
+					<div>
+						<div class="fleft" style="width:270px; text-align:center;">
+							<div style="font-size:80px; " class="score_more">12.135</div>
+							<div>คะแนนที่ต้องทำเพิ่ม</div>
+						</div>
+						<div class="fleft" style="margin-left:30px; width:550px;">
+							<div class="score_1">
+								<div>คะแนนของคุณปัจจุบัน : <span></span></div>
+								<div style="color:#F00;">คะแนนต่ำสุด : <span></span></div>
+								<div style="color:#460d57;">คะแนนสูงสุด : <span></span></div>
+								<div style="margin-top:5px; color:#ff7200; font-weight:bold;">คะแนนที่คาดหวัง : <span></span></div>
+							</div>
+							<div class="score_2" style="margin-top:20px;">
+								<p>หากคุณมีความต้องการที่จะเข้าในสาขานี้ คุณจะต้องทำคะแนนให้ได้ประมาณ <span></span> คะแนน ซึ่งคะแนนนี้มาจากการใช้เกณฑ์สูงต่ำของปีก่อนๆพิจารณา</p>
+								<p>หากคุณทำคะแนนได้สูงกว่า คุณก็มีโอกาสสูงมากที่คุณจะติดอย่างแน่นอน</p>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div id="score_analysis">
+					<div style="font-size:20px;">วิเคราะห์คะแนน GAT PAT</div>
+					<div class="greycolor">หมายเหตุ : การวิเคราะห์คะแนนทั้งหมดนั้น จะยึดหลักว่าเราจะทำคะแนนให้ผ่านเกณฑ์อย่างไร โดยใกล้เคียงกับคะแนนเฉลี่ยแต่ละรายวิชามากที่สุด</div>
+					<div style="margin-top:12px;">
+						<div class="title">1. พิจารณากราฟแสดงคะแนนสูงต่ำและคะแนนที่คาดหวัง</div>
+						<svg width="850" height="65" style="margin-top:5px;" id="bar_score_2">
+							<rect y="35" width="900" height="20" style="fill:rgba(68,0,0,0.05);" />
+							<rect y="35" width="550" height="20" style="fill:rgba(250,150,0,1);" />
+							<rect y="35" width="400" height="20" style="fill:rgb(68,0,0);" />
+							<text x="450" y="18" style="fill:rgb(255,134,0);">คะแนนที่คาดหวัง 51.256%</text>
+							<g fill="none" stroke="rgb(255,0,0)" stroke-width="4">
+								<line stroke-dasharray="4,4" x1="500" y1="25" x2="500" y2="65" />
+							</g>
+							<g fill="none" stroke="rgb(77,5,100)" stroke-width="4">
+								<line stroke-dasharray="4,4" x1="600" y1="25" x2="600" y2="65" />
+							</g>
+							<g fill="none" stroke="rgb(255,150,0)" stroke-width="4">
+								<line x1="550" y1="25" x2="550" y2="65" />
+							</g>
+						</svg>
+						<div class="bar_score_2" style="margin-top:10px; text-align:center;">
+						</div>
+
+						<div class="title" style="margin-top:5px;">2. เลือกคะแนนที่ต้องการ</div>
+						<div class="clear"></div>
+						<div class="fleft" style="width:500px;">
+							<div class="score_need" style="text-align:center; font-size:80px;"></div>
+						</div>
+						<div class="fleft" style="width:300px; padding-left:20px;">
+							<div class="summerize"></div>
+						</div>
+						<div class="clear"></div>
+						<div class="slider_1" style="margin-top:2px;"></div>
+
+						<div class="greycolor" style="text-align:right; margin-top:6px;">คลิกลากเพื่อปรับคะแนน</div>
+
+						<div class="title" style="margin-top:5px;">3. เปอร์เซ็นต์คะแนน และ เลือกคะแนนที่คิดว่าจะทำได้</div>
+						<table class="wanted" style="margin-top:15px; width:100%; text-align:center;"></table>
+						<div style="margin-top:20px; text-align:center; color:#0e5e80;">รวมเปอร์เซ็นต์ทั้งหมดสำหรับวิชา GAT PAT :
+							<span class="ratio_sum" style="font-weight:bold;"></span><br>
+							ให้คะแนนที่คิดว่าจะทำได้ตามคำเป็นจริงนะครับ ถ้าไม่รู้ว่าจะได้เท่าไหร่ เว้นเหลือ 0 ไว้
+						</div>
+					</div>
+					<div class="log" style="margin-top:5px; text-align:center; color:#F00;">
+					</div>
+					<div id="analysis_result" style="margin-top:10px; display:none;">
+						<div class="title">4. วิเคราะห์คะแนนเสร็จสิ้น</div>
+						<br>
+						<div class="log_analysis" style="margin:15px 0px; text-align:center; color:#0e5e80;"></div>
+						<div style="text-align:center; width:100%;"><span class="title">คำแนะนำที่ 1</span></div>
+						<div style="text-align:center; margin-top:6px; color:#0e5e80;">คุณควรจะทำคะแนนอย่างน้อยที่สุดให้ได้ดังนี้</div>
+						<table style="text-align:center; width:100%; margin-top:12px;" class="rec1">
+							<tr></tr>
+						</table>
+						<div style="text-align:center; width:100%;"><span class="title">คำแนะนำที่ 2</span></div>
+						<div style="text-align:center; margin-top:6px; color:#0e5e80;">คุณควรจะทำคะแนนอย่างน้อยที่สุดให้ได้ดังนี้ <span class="greycolor">คะแนนแนะนำที่ 1 และ 2 อาจเหมือนกันได้</span></div>
+						<table style="text-align:center; width:100%; margin-top:12px;" class="rec2">
+							<tr></tr>
+						</table>
+					</div>
+					<div class="submit" onclick="analysis_result()" style="margin-top:20px;">เริ่มวิเคราะห์</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
