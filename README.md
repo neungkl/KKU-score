@@ -6,6 +6,8 @@ Kornkern University Scoring
 This project is a web-application tool for calculating the score of
 Kornkern University in northeastern region of Thailand.
 
+Try project here [http://project.neungkl.com/kku_score/](http://project.neungkl.com/kku_score/)
+
 ## Features
 - Flexible for score input. Input divided to 3 parts. Not necessary to input every part for calculate.
 - Compare the result of score to the previous 2 year score history.
