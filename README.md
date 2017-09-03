@@ -1,12 +1,12 @@
 Kornkern University Scoring
 ===
 
-<img src="preview.png" width="650">
+![KKU Score](preview.png)
 
 This project is a web-application tool for calculating the score of
 Kornkern University in northeastern region of Thailand.
 
-Try project here [http://project.neungkl.com/kku_score/](http://project.neungkl.com/kku_score/)
+Try project here [http://kosate.com/project/kku-score/](http://kosate.com/project/kku-score/)
 
 ## Features
 - Flexible for score input. Input divided to 3 parts. Not necessary to input every part for calculate.
